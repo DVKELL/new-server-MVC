@@ -1,0 +1,52 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "username": "Daikell"
+    },
+    {
+      "id": "768d",
+      "username": "Daikell2"
+    },
+    {
+      "id": "7862",
+      "username": "Prueba"
+    },
+    {
+      "id": "fedc",
+      "username": "Prueba 2"
+    },
+    {
+      "id": "6773",
+      "username": "Prueba 3"
+    },
+    {
+      "id": "72fb",
+      "username": "123"
+    },
+    {
+      "id": "361f",
+      "username": "200"
+    },
+    {
+      "id": "6d98",
+      "username": "mongo a ver"
+    },
+    {
+      "id": "6b98",
+      "username": "a ver"
+    }
+  ],
+  "tareas": [
+    {
+      "id": "a709",
+      "descripcion": "Tarea 2",
+      "username_id": "1"
+    },
+    {
+      "id": "bd64",
+      "descripcion": "Tarea 3",
+      "username_id": "1"
+    }
+  ]
+}
