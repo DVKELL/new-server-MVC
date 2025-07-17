@@ -1,57 +1,31 @@
-//Los controladores se nombran en plural
+// controllers/usuarios.js
+//
+// Controlador muy sencillo para manejar usuarios con MongoDB y Mongoose.
+// Solo expone dos rutas:
+//   GET  /api/users   → devuelve la lista completa de usuarios
+//   POST /api/users   → crea un usuario nuevo
+// ───────────────────────────────────────────────────────────────────────
 
-//Definir el router (es lo que nos permite hacer las operaciones tipo CRUD)
+const express = require("express"); //Funciona para crear rutas HTTP
+const userRouter = express.Router(); //Permite modularizar rutas
+const User = require("../models/usuario"); // Modelo Mongoose (models/usuarios)
 
-//Creando el router
-const userRouter = require("express").Router();
-
-//Crear el modelo
-
-//Conectar al modelo
-const user = require("../models/usuario");
-
-//2. Registro del nombre que el usuario ingreso en el formulario
-userRouter.post("/", (request, response) => {
-    //Cuando ingrese a este metodo es porque se esta llamando desde el js del front, relacionado al formulario, donde quiero relizar el registro
-
-    //Destructuring de lo que se esta enviado
-    const { nombre } = request.body;
-    console.log(nombre); //Este console log deberia aparecer en la terminal
-
-    //Validaciones a nivel de backend
-    if (!nombre) {
-        console.log("campos vacios");
-
-        //al realizar esta validacion retorno al frontend que hay un error
-        return response.status(400).json({
-            error: "Todos los campos son obligatorios",
-        });
-    } else {
-        //Caso en que esta correcto el dato a registrar
-        //Luego se debe envairlos a la BD
-        console.log(nombre);
-
-        //Enviar los datos a la BD
-        let usuario = new user();
-
-        usuario.nombre = nombre;
-
-        async function guardarUsuario() {
-            await usuario.save();
-            const usuario_consulta = await user.find();
-            console.log("test ", usuario_consulta);
-        }
-
-        guardarUsuario().catch(console.error());
-
-        return response
-            .status(200)
-            .json({ mensaje: "se ha creado el usuario" });
-    }
+/* ───────────────  GET /api/users  ─────────────── */
+userRouter.get("/", async (_req, res) => {
+    const usuarios = await User.find(); // trae todos los documentos
+    res.json(usuarios); // responde en JSON
 });
 
-//userRouter.get();
+/* ───────────────  POST /api/users ─────────────── */
+userRouter.post("/", async (req, res) => {
+    const { nombre } = req.body; // dato que llega del formulario
+    if (!nombre)
+        // validación mínima
+        return res.status(400).json({ error: "Nombre requerido" });
 
-//Todos los metodos CRUD se pueden usar con user router
+    const nuevoUsuario = new User({ nombre }); // crea el documento
+    await nuevoUsuario.save(); // guarda en Mongo
+    res.status(201).json(nuevoUsuario); // confirma creación
+});
 
 module.exports = userRouter;

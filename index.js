@@ -1,38 +1,32 @@
 const express = require("express");
-const axios = require("axios");
 const app = express();
+
 const mongoose = require("mongoose");
-const PORT = 3000;
 const path = require("path");
 const userRouter = require("./controllers/usuarios");
 require("dotenv").config();
 
-// app.get("/", (request, response) => {
-//     response.send("Servidor Express funcionando");
-// });
+const PORT = 3000;
 
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+// ---------------- BBDD ----------------
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Conectado a MongoDB"))
+  .catch((err) => console.error(err));
 
-//conexion a la bd
-try {
-    mongoose.connect(process.env.MONGODB_URI);
-    console.log(`conectado a mongo`);
-} catch (error) {
-    console.log(error);
-}
-
-//RUTAS DE FRONTEND
-//Solo usar nombres de carpetas
-app.use("/", express.static(path.resolve("views", "home")));
-app.use("/tareas", express.static(path.resolve("views", "home")));
-app.use("/controllers", express.static(path.resolve("controllers")));
-
-//SUPER IMPORTANTE
+// ------------- Middleware -------------
 app.use(express.json());
 
-//RUTAS BACKEND
+// ------------- Rutas frontend ----------
+app.use("/", express.static(path.resolve("views", "home")));
+app.use("/tareas", express.static(path.resolve("views", "tareas")));
+
+// ------------- Rutas backend -----------
 app.use("/api/users", userRouter);
+
+// ------------- Arrancar servidor -------
+app.listen(PORT, () =>
+  console.log(`Servidor escuchando en http://localhost:${PORT}`)
+);
 
 module.exports = app;
