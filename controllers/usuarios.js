@@ -7,13 +7,16 @@
 // ───────────────────────────────────────────────────────────────────────
 
 const express = require("express"); //Funciona para crear rutas HTTP
+
 const userRouter = express.Router(); //Permite modularizar rutas
+
 const User = require("../models/usuario"); // Modelo Mongoose (models/usuarios)
 
 /* ───────────────  GET /api/users  ─────────────── */
 userRouter.get("/", async (_req, res) => {
     const usuarios = await User.find(); // trae todos los documentos
     res.json(usuarios); // responde en JSON
+    //cada vez que alguien ingresa un usuario valido
 });
 
 /* ───────────────  POST /api/users ─────────────── */
@@ -28,4 +31,4 @@ userRouter.post("/", async (req, res) => {
     res.status(201).json(nuevoUsuario); // confirma creación
 });
 
-module.exports = userRouter;
+module.exports = userRouter; //Permite usar el router en otras paginas

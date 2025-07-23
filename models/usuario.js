@@ -8,6 +8,7 @@ const usuarioSchema = new mongoose.Schema({
     nombre: String,
 });
 
+
 //Configurar la respuesta del usuario en el esquema
 usuarioSchema.set("toJSON", {
     transform: (document, returnObject) => {
@@ -16,8 +17,10 @@ usuarioSchema.set("toJSON", {
     },
 });
 
-//Registrar el modelo
+//Registrar el modelo //Contiene la BBDD
 const users = mongoose.model("users", usuarioSchema);
 
-//exportar
+
+//Exportando el modelo de usuarios
 module.exports = users;
+

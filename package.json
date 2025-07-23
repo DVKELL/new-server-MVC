@@ -1,6 +1,19 @@
 {
     "name": "dd-servidor",
     "version": "1.0.0",
+    "description": "",
+    "keywords": [],
+    "homepage": "https://github.com/DVKELL/new-server-MVC#readme",
+    "bugs": {
+        "url": "https://github.com/DVKELL/new-server-MVC/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DVKELL/new-server-MVC.git"
+    },
+    "license": "ISC",
+    "author": "Daikell Dominguez",
+    "type": "commonjs",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -8,10 +21,6 @@
         "start": "nodemon index.js",
         "admin": "npm-run-all --parallel server start"
     },
-    "author": "Daikell Dominguez",
-    "license": "ISC",
-    "keywords": [],
-    "description": "",
     "dependencies": {
         "axios": "^1.10.0",
         "dotenv": "^17.2.0",

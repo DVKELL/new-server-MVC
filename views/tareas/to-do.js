@@ -1,3 +1,4 @@
+/*---------- VARIABLES ---------*/
 const user = JSON.parse(localStorage.getItem("usuario")); //Obtiene los datos almacenados en el LS
 const formulario = document.querySelector("#form-todos");
 const lista = document.querySelector("#todos-list");
@@ -6,24 +7,26 @@ const cerrarBtn = document.querySelector("#cerrar-btn");
 
 const notification = document.querySelector(".notification");
 
+const API = "/api/tareas"; //Dice que no existe la ruta
+
 // validar si existe un usuario
 if (!user) {
     //Si no hay nada en el LS, se cambiar la URL al inicio
-    window.location.href = "../home/index.html";
+    window.location.href = "../";
 } else {
     const obtenerLista = async () => {
-        // Apunta a la BD para obtener los datos del array "tareas" y lo guarda en la variable
-        const respuesta = await fetch("http://localhost:3000/tareas", {
+        // Apunta al controlador
+        const respuesta = await fetch(API, {
             method: "GET",
         });
 
         //El array de respuestas se convierte en un objeto utilizable
         const list = await respuesta.json();
 
-        // console.log("muestra lo que hay en el array TAREAS:", list);
+        console.log("muestra lo que hay en el array TAREAS:", list);
 
         //Filtra la respuesta en cada posicion valida si el username_id es === al id que esta guardado en el LS
-        const userList = list.filter((i) => i.username_id === user.id);
+        const userList = list.filter((i) => i.usuarioID === user.id);
         console.log("tareas: ", userList);
 
         //Por cada tarea crea un li, le otorga el id de su posicion y el texto
@@ -48,16 +51,18 @@ if (!user) {
     formulario.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        await fetch("http://localhost:3000/tareas", {
+        //Envio al controlador con el metodo POST
+        await fetch(API, {
+            //da 404 en esta linea
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                descripcion: inputF.value,
-                username_id: user.id,
+                nombreTarea: inputF.value, //Quizas aqui haya algun error
+                usuarioID: user.id,
             }),
-            //Enviamos a la BD la tarea ingresada en el input y se lleva el id del usuario conectado
+            //Enviamos al controlador la tarea ingresada en el input y se lleva el id del usuario conectado
         });
         obtenerLista();
     });
@@ -106,5 +111,5 @@ cerrarBtn.addEventListener("click", (e) => {
 
     localStorage.removeItem("usuario");
 
-    window.location.href = "../home/index.html";
+    window.location.href = "../";
 });
