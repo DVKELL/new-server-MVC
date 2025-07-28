@@ -12,25 +12,25 @@ const PORT = 3000;
 
 // ---------------- BBDD ----------------
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Conectado a MongoDB"))
-  .catch((err) => console.error(err));
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log("Conectado a MongoDB"))
+    .catch((err) => console.error(err));
 
 // ------------- Middleware -------------
-app.use(express.json());
+app.use(express.json()); //Para interpretar los JSON
+app.use(express.urlencoded({ extended: true }));
 
 // ------------- Rutas frontend ----------
-app.use("/", express.static(path.resolve("views", "home")));
-app.use("/tareas", express.static(path.resolve("views", "tareas")));
+app.use("/", express.static(path.resolve("views", "home"))); //views/home/
+app.use("/tareas", express.static(path.resolve("views", "todos"))); //views/todos/
 
 // ------------- Rutas backend -----------
 app.use("/api/users", userRouter);
 app.use("/api/tareas", tareasRouter);
 
-
 // ------------- Arrancar servidor -------
 app.listen(PORT, () =>
-  console.log(`Servidor escuchando en http://localhost:${PORT}`)
+    console.log(`Servidor escuchando en http://localhost:${PORT}`)
 );
 
 module.exports = app;

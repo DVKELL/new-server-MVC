@@ -3,8 +3,11 @@ const mongoose = require("mongoose");
 
 //Definiendo el esquema para las tareas
 const tareaSchema = new mongoose.Schema({
-    nombreTarea: String,
-    completado: { type: Boolean, default: true },
+    nombreTarea: {
+        type: String,
+        trim: true,
+    },
+    completado: { type: Boolean, default: false },
     usuarioID: {
         type: mongoose.Schema.Types.ObjectId, //El ID de cada usuario creado por mongo
         ref: "users", //Referencia al esquema de usuarios

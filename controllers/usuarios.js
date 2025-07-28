@@ -7,7 +7,6 @@
 // ───────────────────────────────────────────────────────────────────────
 
 const express = require("express"); //Funciona para crear rutas HTTP
-
 const userRouter = express.Router(); //Permite modularizar rutas
 
 const User = require("../models/usuario"); // Modelo Mongoose (models/usuarios)
@@ -22,9 +21,11 @@ userRouter.get("/", async (_req, res) => {
 /* ───────────────  POST /api/users ─────────────── */
 userRouter.post("/", async (req, res) => {
     const { nombre } = req.body; // dato que llega del formulario
-    if (!nombre)
+
+    if (!nombre) {
         // validación mínima
         return res.status(400).json({ error: "Nombre requerido" });
+    }
 
     const nuevoUsuario = new User({ nombre }); // crea el documento
     await nuevoUsuario.save(); // guarda en Mongo

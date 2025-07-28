@@ -7,14 +7,14 @@ const loginInput = document.querySelector("#login-input");
 const createInput = document.querySelector("#create-input");
 const notification = document.querySelector(".notification");
 
-// URL base del backend
+// URL base del backend, para POST y GET en users
 const API = "http://localhost:3000/api/users";
 
 // Muestra mensajes en la notificación
 function mensaje(texto) {
   notification.textContent = texto;
   notification.classList.add("show-notification");
-  setTimeout(() => notification.classList.remove("show-notification"), 3000);
+  setTimeout(() => notification.classList.remove("show-notification"), 5000);
 }
 
 /* ────────────────────────────────
@@ -27,8 +27,8 @@ formC.addEventListener("submit", async (e) => {
   if (!nombre) return mensaje("El nombre no puede estar vacío");
 
   // Traer usuarios existentes
-  const lista = await (await fetch(API)).json();
-  const existe = lista.some((u) => u.nombre === nombre);
+  const lista = await (await fetch(API)).json(); //Trae los datos de la bbdd
+  const existe = lista.some((u) => u.nombre === nombre); //Busca si existe una coincidencia
   if (existe) return mensaje(`El usuario "${nombre}" ya existe`);
 
   // Crear nuevo usuario
